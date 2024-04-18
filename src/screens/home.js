@@ -5,15 +5,24 @@ import { useGlobalAudioPlayer } from 'react-use-audio-player';
 
 export const HomeScreen = () => {
     const [currentSection, setCurrentSection] = useState(-1);
-    const { load, setRate } = useGlobalAudioPlayer();
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [hasPlayed, setHasPlayed] = useState(false);
+    const { load, setRate, play, pause } = useGlobalAudioPlayer();
 
     const handlePlay = () => {
-        load(require('../assets/blinding-lights.mp3'), {
-            autoplay: true,
-            html5: true,
-            rate: 2,
-            format: 'mp3'
-        });
+        if (!isPlaying && !hasPlayed) {
+            load(require('../assets/blinding-lights.mp3'), {
+                autoplay: false,
+                html5: true,
+                rate: 1,
+                format: 'mp3'
+            });
+            setIsPlaying(true);
+        } else if (!isPlaying && hasPlayed) {
+            play();
+        } else {
+            pause();
+        }
     }
 
     useEffect(() => {
