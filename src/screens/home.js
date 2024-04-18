@@ -12,16 +12,19 @@ export const HomeScreen = () => {
     const handlePlay = () => {
         if (!isPlaying && !hasPlayed) {
             load(require('../assets/blinding-lights.mp3'), {
-                autoplay: false,
+                autoplay: true,
                 html5: true,
                 rate: 1,
                 format: 'mp3'
             });
             setIsPlaying(true);
+            setHasPlayed(true)
         } else if (!isPlaying && hasPlayed) {
             play();
+            setIsPlaying(true);
         } else {
             pause();
+            setIsPlaying(false);
         }
     }
 
@@ -53,8 +56,8 @@ export const HomeScreen = () => {
         <div className="home-container">
             <h2>SPEED SURFER</h2>
             <h1>MOVE YOUR MOUSE AROUND THE SLIDER</h1>
-            <div className={"play-button"} onClick={handlePlay}>
-                <p>►</p>
+            <div className={`${isPlaying ? 'pause-button' : 'play-button'}`} onClick={handlePlay}>
+                <p>{!isPlaying ? '►' : '⏸'}</p>
             </div>
             <Slider />
         </div>
