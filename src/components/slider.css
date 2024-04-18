@@ -1,0 +1,23 @@
+.slider-container {
+    width: 90%;
+    margin-left: 5%;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+}
+
+.slider-block {
+    width: 70%;
+    border-bottom-left-radius: 20%;
+    border-top-left-radius: 20%;
+    height: 100%;
+    background-image: linear-gradient(to right, rgba(0,0,0,0) , #879BF5);
+}
+
+.slider-circle {
+    height: 100%;
+    aspect-ratio: 1;
+    background-color: #879BF5;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+}

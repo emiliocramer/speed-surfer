@@ -1,0 +1,41 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.home-container h2{
+    margin: 50px 0 0 0;
+    font-size: 40px;
+    font-weight: lighter;
+}
+
+.home-container h1{
+    font-size: 50px;
+    margin: 5px 0 20px 0;
+}
+
+.play-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #ff0d43;
+    color: white;
+    border: none;
+    margin-bottom: 50px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.play-button p {
+    margin-left: 5px;
+}
+
+.play-button:hover {
+    cursor: pointer;
+}
