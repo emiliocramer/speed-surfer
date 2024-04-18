@@ -8,7 +8,6 @@ export const HomeScreen = () => {
     const { load, setRate } = useGlobalAudioPlayer();
 
     const handlePlay = () => {
-        console.log("play")
         load(require('../assets/blinding-lights.mp3'), {
             autoplay: true,
             html5: true,
