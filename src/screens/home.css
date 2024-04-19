@@ -18,6 +18,15 @@
     margin: 5px 0 20px 0;
 }
 
+.home-container h2 a {
+    color: #888888;
+}
+
+.home-container h2 a:hover {
+    color: #fafafa;
+    cursor: pointer;
+}
+
 .play-button {
     width: 60px;
     height: 60px;

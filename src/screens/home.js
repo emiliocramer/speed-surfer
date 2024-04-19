@@ -1,38 +1,43 @@
 import { useState, useEffect } from 'react';
 import './home.css';
 import { Slider } from "../components/slider";
-import Pizzicato from "pizzicato/distr/Pizzicato";
+import { useGlobalAudioPlayer } from 'react-use-audio-player';
+import {useNavigate} from "react-router-dom";
 
 export const HomeScreen = () => {
     const [currentSection, setCurrentSection] = useState(-1);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [loadedSound, setLoadedSound] = useState(null);
+    const { load, setRate, play, pause } = useGlobalAudioPlayer();
+    const [hasPlayed, setHasPlayed] = useState(false);
+    const navigate = useNavigate()
 
-    useEffect(() => {
-        const sound = new Pizzicato.Sound( require('../assets/blinding-lights.mp3'), () => {
-            console.log('Sound file loaded!');
-        });
-
-        setLoadedSound(sound);
-
-        return () => {
-            sound.stop();
-            sound.disconnect();
-        };
-    }, []);
+    const handleNavigate = () => {
+        if (isPlaying) {
+            pause();
+            navigate('/filterpad')
+        } else {
+            navigate('/filterpad')
+        }
+    }
 
     const handlePlay = () => {
-        if (loadedSound) {
-            if (!isPlaying) {
-                loadedSound.play();
-            } else {
-                loadedSound.pause();
-            }
-            setIsPlaying(!isPlaying);
+        if (!isPlaying && !hasPlayed) {
+            load(require('../assets/blinding-lights.mp3'), {
+                autoplay: true,
+                html5: true,
+                rate: 1,
+                format: 'mp3'
+            });
+            setIsPlaying(true);
+            setHasPlayed(true)
+        } else if (!isPlaying && hasPlayed) {
+            play();
+            setIsPlaying(true);
         } else {
-            console.error('Sound not loaded');
+            pause();
+            setIsPlaying(false);
         }
-    };
+    }
 
     useEffect(() => {
         const handleMouseMove = (event) => {
@@ -54,15 +59,15 @@ export const HomeScreen = () => {
     }, [currentSection]);
 
     useEffect(() => {
-        if (loadedSound) {
-            loadedSound.playbackRate = 0.5 + ((currentSection - 1) / (20 - 1)) * (2 - 0.5);
-            console.log(loadedSound.playbackRate)
-        }
-    }, [currentSection, loadedSound])
+        setRate(0.5 + ((currentSection - 1) / (20 - 1)) * (2 - 0.5))
+    }, [setRate, currentSection])
 
     return (
         <div className="home-container">
-            <h2>SPEED SURFER</h2>
+            <h2>
+                SPEED SURFER <a onClick={handleNavigate} style={{ textDecoration: 'none' }}>OR TRY OUT <span style={{ textDecoration: 'underline' }}>FILTER SURFER</span>
+                </a>
+            </h2>
             <h1>MOVE YOUR MOUSE AROUND THE SLIDER</h1>
             <div className={`${isPlaying ? 'pause-button' : 'play-button'}`} onClick={handlePlay}>
                 <p>{!isPlaying ? '►' : '⏸'}</p>
