@@ -3,13 +3,19 @@ import './home.css';
 import { Slider } from "../components/slider";
 import { useGlobalAudioPlayer } from 'react-use-audio-player';
 import {useNavigate} from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+
 
 export const HomeScreen = () => {
+    const navigate = useNavigate()
+    const location = useLocation();
+
     const [currentSection, setCurrentSection] = useState(-1);
     const [isPlaying, setIsPlaying] = useState(false);
     const { load, setRate, play, pause } = useGlobalAudioPlayer();
     const [hasPlayed, setHasPlayed] = useState(false);
-    const navigate = useNavigate()
+    const doesReload = location.state?.doesReload;
+
 
     const handleNavigate = () => {
         if (isPlaying) {
@@ -61,6 +67,13 @@ export const HomeScreen = () => {
     useEffect(() => {
         setRate(0.5 + ((currentSection - 1) / (20 - 1)) * (2 - 0.5))
     }, [setRate, currentSection])
+
+    useEffect(() => {
+        if (doesReload && !sessionStorage.getItem('reloaded')) {
+            sessionStorage.setItem('reloaded', 'true');
+            window.location.reload();
+        }
+    }, []);
 
     return (
         <div className="home-container">

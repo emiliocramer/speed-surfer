@@ -17,10 +17,9 @@ export const FilterPadScreen = () => {
     const handleNavigate = () => {
         if (loadedSound && loadedSound.playing) {
             loadedSound.stop();
-            navigate('/')
-        } else {
-            navigate('/')
         }
+        sessionStorage.removeItem('reloaded');
+        navigate('/', { state: { doesReload: true } });
     }
 
     const getReverbDescription = (level) => {
