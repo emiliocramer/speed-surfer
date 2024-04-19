@@ -159,7 +159,7 @@ export const FilterPadScreen = () => {
                 </h2>
                 <h1>MOVE YOUR MOUSE AROUND THE SCREEN</h1>
                 <p className={'filter-indicator'}>
-                    Reverb lvl: {getReverbDescription(reverbLevel)}. Filter lvl: {getFilterDescription(filterFrequency)}
+                    <span style={{fontWeight: 'bold'}}>Reverb lvl:</span> {getReverbDescription(reverbLevel)}. <span style={{fontWeight: 'bold'}}>Filter lvl:</span> {getFilterDescription(filterFrequency)}
                 </p>
                 <div className={`${isPlaying ? 'pause-button' : 'play-button'}`} onClick={handlePlay}>
                     <p>{!isPlaying ? '►' : '⏸'}</p>
