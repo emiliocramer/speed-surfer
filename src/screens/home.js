@@ -2,12 +2,23 @@ import { useState, useEffect } from 'react';
 import './home.css';
 import { Slider } from "../components/slider";
 import { useGlobalAudioPlayer } from 'react-use-audio-player';
+import {useNavigate} from "react-router-dom";
 
 export const HomeScreen = () => {
     const [currentSection, setCurrentSection] = useState(-1);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [hasPlayed, setHasPlayed] = useState(false);
     const { load, setRate, play, pause } = useGlobalAudioPlayer();
+    const [hasPlayed, setHasPlayed] = useState(false);
+    const navigate = useNavigate()
+
+    const handleNavigate = () => {
+        if (isPlaying) {
+            pause();
+            navigate('/filterpad')
+        } else {
+            navigate('/filterpad')
+        }
+    }
 
     const handlePlay = () => {
         if (!isPlaying && !hasPlayed) {
@@ -38,7 +49,6 @@ export const HomeScreen = () => {
 
             if (sectionIndex !== currentSection) {
                 setCurrentSection(sectionIndex);
-                console.log(`Mouse is over section ${sectionIndex} (${sectionIndex * 5}% - ${(sectionIndex + 1) * 5}%)`);
             }
         };
 
@@ -54,7 +64,10 @@ export const HomeScreen = () => {
 
     return (
         <div className="home-container">
-            <h2>SPEED SURFER</h2>
+            <h2>
+                SPEED SURFER <a onClick={handleNavigate} style={{ textDecoration: 'none' }}>OR TRY OUT <span style={{ textDecoration: 'underline' }}>FILTER SURFER</span>
+                </a>
+            </h2>
             <h1>MOVE YOUR MOUSE AROUND THE SLIDER</h1>
             <div className={`${isPlaying ? 'pause-button' : 'play-button'}`} onClick={handlePlay}>
                 <p>{!isPlaying ? '►' : '⏸'}</p>
