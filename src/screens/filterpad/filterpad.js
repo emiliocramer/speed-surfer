@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import './filterpad.css';
 import Pizzicato from "pizzicato/distr/Pizzicato";
 import {useNavigate} from "react-router-dom";
+import MouseParticles from 'react-mouse-particles'
+
 
 export const FilterPadScreen = () => {
     const [currentSection, setCurrentSection] = useState({});
@@ -140,15 +142,28 @@ export const FilterPadScreen = () => {
 
 
     return (
-        <div className="home-container">
-            <h2>FILTER SURFER <a onClick={handleNavigate} style={{ textDecoration: 'none' }}>OR TRY OUT <span style={{ textDecoration: 'underline' }}>SPEED SURFER</span>
-            </a>
-            </h2>
-            <h1>MOVE YOUR MOUSE AROUND THE SCREEN</h1>
-            <p>Reverb lvl: {reverbLevel} Filter lvl: {filterFrequency}</p>
-            <div className={`${isPlaying ? 'pause-button' : 'play-button'}`} onClick={handlePlay}>
-                <p>{!isPlaying ? '►' : '⏸'}</p>
+        <>
+            <div className="home-container filter-pad-container">
+                <h2>FILTER SURFER <a onClick={handleNavigate} style={{ textDecoration: 'none' }}>OR TRY OUT <span style={{ textDecoration: 'underline' }}>SPEED SURFER</span>
+                </a>
+                </h2>
+                <h1>MOVE YOUR MOUSE AROUND THE SCREEN</h1>
+                <p className={'filter-indicator'}>Reverb lvl: {reverbLevel} Filter lvl: {filterFrequency}</p>
+                <div className={`${isPlaying ? 'pause-button' : 'play-button'}`} onClick={handlePlay}>
+                    <p>{!isPlaying ? '►' : '⏸'}</p>
+                </div>
             </div>
-        </div>
+            <MouseParticles
+                g={3}
+                num={8}
+                radius={15}
+                alpha={0.8}
+                theta={45}
+                v={1}
+                life={1.5}
+                color="random"
+                cull="col,image-wrapper"
+            />
+        </>
     );
 };

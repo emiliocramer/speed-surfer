@@ -1,0 +1,9 @@
+.filter-pad-container {
+    height: 100vh;
+}
+
+@media screen and (max-width: 900px) {
+    .filter-indicator {
+        font-size: 12px;
+    }
+}
