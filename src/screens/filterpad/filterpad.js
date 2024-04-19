@@ -3,6 +3,7 @@ import './filterpad.css';
 import Pizzicato from "pizzicato/distr/Pizzicato";
 import {useNavigate} from "react-router-dom";
 import MouseParticles from 'react-mouse-particles'
+import {filterDescriptions, reverbDescriptions} from "../../helpers/helpers";
 
 
 export const FilterPadScreen = () => {
@@ -13,7 +14,6 @@ export const FilterPadScreen = () => {
     const [filterFrequency, setFilterFrequency] = useState(200);
     const navigate = useNavigate();
 
-
     const handleNavigate = () => {
         if (loadedSound && loadedSound.playing) {
             loadedSound.stop();
@@ -21,6 +21,17 @@ export const FilterPadScreen = () => {
         } else {
             navigate('/')
         }
+    }
+
+    const getReverbDescription = (level) => {
+        const index = Math.floor(level * (reverbDescriptions.length - 1));
+        return reverbDescriptions[index];
+    }
+
+    const getFilterDescription = (frequency) => {
+        const maxFrequency = 5000; // Approximately the upper bound
+        const index = Math.floor((frequency / maxFrequency) * (filterDescriptions.length - 1));
+        return filterDescriptions[index];
     }
 
     useEffect(() => {
@@ -148,7 +159,9 @@ export const FilterPadScreen = () => {
                 </a>
                 </h2>
                 <h1>MOVE YOUR MOUSE AROUND THE SCREEN</h1>
-                <p className={'filter-indicator'}>Reverb lvl: {reverbLevel} Filter lvl: {filterFrequency}</p>
+                <p className={'filter-indicator'}>
+                    Reverb lvl: {getReverbDescription(reverbLevel)}. Filter lvl: {getFilterDescription(filterFrequency)}
+                </p>
                 <div className={`${isPlaying ? 'pause-button' : 'play-button'}`} onClick={handlePlay}>
                     <p>{!isPlaying ? '►' : '⏸'}</p>
                 </div>
