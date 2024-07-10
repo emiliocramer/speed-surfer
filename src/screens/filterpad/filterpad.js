@@ -57,32 +57,6 @@ export const FilterPadScreen = () => {
         };
     }, [loadSound]);
 
-    useEffect(() => {
-        const handleMouseMove = (event) => {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            const numSections = 20;
-
-            const x = event.clientX;
-            const y = event.clientY;
-
-            const xQuadrant = Math.floor((x / width) * numSections);
-            const yQuadrant = 19 - Math.floor((y / height) * numSections);
-
-            if (xQuadrant !== currentSection.xQuadrant || yQuadrant !== currentSection.yQuadrant) {
-                setCurrentSection({
-                    xQuadrant,
-                    yQuadrant
-                });
-            }
-        };
-
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-        };
-    }, [currentSection, setCurrentSection]);
-
     const handlePlay = useCallback(() => {
         if (loadedSound) {
             if (!isPlaying) {
@@ -141,16 +115,8 @@ export const FilterPadScreen = () => {
     useEffect(() => {
         if (loadedSound) {
             const reverbEffect = loadedSound.effects.find(effect => effect instanceof Pizzicato.Effects.Reverb);
-
-            if (reverbEffect && currentSection?.yQuadrant !== undefined) {
-                const newReverbLevel = currentSection.yQuadrant / 19;
-                reverbEffect.time = 0.5 + newReverbLevel * 2;
-                reverbEffect.decay = 0.5 + newReverbLevel * 2;
-                reverbEffect.mix = newReverbLevel;
-                setReverbLevel(newReverbLevel);
-            }
         }
-    }, [loadedSound, currentSection?.yQuadrant]);
+    }, [loadedSound]);
 
     useEffect(() => {
         let lowPassEffect;
@@ -174,15 +140,8 @@ export const FilterPadScreen = () => {
     useEffect(() => {
         if (loadedSound) {
             const lowPassEffect = loadedSound.effects.find(effect => effect instanceof Pizzicato.Effects.LowPassFilter);
-
-            if (lowPassEffect && currentSection?.xQuadrant !== undefined) {
-                const newFrequency = 200 + (currentSection.xQuadrant / 19) * 4800;
-                lowPassEffect.frequency = newFrequency;
-                lowPassEffect.peak = 10;
-                setFilterFrequency(newFrequency);
-            }
         }
-    }, [loadedSound, currentSection?.xQuadrant]);
+    }, [loadedSound]);
 
     return (
         <>
@@ -216,17 +175,6 @@ export const FilterPadScreen = () => {
                     <p>{!isPlaying ? '►' : '⏸'}</p>
                 </div>
             </div>
-            <MouseParticles
-                g={3}
-                num={8}
-                radius={15}
-                alpha={0.8}
-                theta={45}
-                v={1}
-                life={1.5}
-                color="random"
-                cull="col,image-wrapper"
-            />
         </>
     );
 };

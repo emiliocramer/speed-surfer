@@ -95,6 +95,9 @@ export const HomeScreen = () => {
 
     return (
         <div className="home-container">
+            <h2>
+                SPEED SURFER
+            </h2>
             <div
                 className="file-drop-area"
                 onDragOver={handleDragOver}
@@ -113,14 +116,15 @@ export const HomeScreen = () => {
                 />
                 {selectedFile && <p>Selected: {selectedFile.name}</p>}
             </div>
-            <h2>
-                SPEED SURFER <a onClick={handleNavigate} style={{ textDecoration: 'none' }}>OR TRY OUT <span style={{ textDecoration: 'underline' }}>FILTER SURFER</span></a>
-            </h2>
-            <h1>MOVE YOUR MOUSE AROUND THE SLIDER</h1>
-            <div className={`${isPlaying ? 'pause-button' : 'play-button'}`} onClick={handlePlay}>
-                <p>{!isPlaying ? '►' : '⏸'}</p>
-            </div>
-            <Slider />
+            {selectedFile && (
+                <>
+                    <h1>MOVE YOUR MOUSE AROUND THE SLIDER</h1>
+                    <div className={`${isPlaying ? 'pause-button' : 'play-button'}`} onClick={handlePlay}>
+                        <p>{!isPlaying ? '►' : '⏸'}</p>
+                    </div>
+                    <Slider />
+                </>
+            )}
         </div>
     );
 };
